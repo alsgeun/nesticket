@@ -11,6 +11,8 @@ import { User } from './user/entities/user.entity';
 import { Show } from './show/entities/show.entity';
 import { EntertainersModule } from './entertainers/entertainers.module';
 import { TicketsModule } from './tickets/tickets.module';
+import { Entertainers } from './entertainers/entities/entertainers.entitiy';
+import { Tickets } from './tickets/entities/tickets.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -23,7 +25,7 @@ const typeOrmModuleOptions = {
     host: configService.get('DB_HOST'),
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'),
-    entities: [User, Show], // 엔티티는 반드시 여기에 명시!
+    entities: [User, Show, Entertainers, Tickets], // 엔티티는 반드시 여기에 명시!
     synchronize: configService.get('DB_SYNC'),
     logging: true,
   }),
@@ -44,7 +46,7 @@ const typeOrmModuleOptions = {
         DB_SYNC: Joi.boolean().required(),
       }),
     }),
-    TypeOrmModule.forRootAsync(typeOrmModuleOptions),,
+    TypeOrmModule.forRootAsync(typeOrmModuleOptions),
     UserModule,
     ShowModule,
     EntertainersModule,

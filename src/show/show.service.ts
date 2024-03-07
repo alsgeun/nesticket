@@ -9,7 +9,7 @@ export class ShowService {
     // 1. 서비스가 제공하는 비즈니스 로직들의 레이아웃을 먼저 하는 것 -> 함수의 시그니처를 작성하는 것
     // 2. 생성자를 통해서 필요한 친구들을 DI 하는 것
     // 그럼 여기서 뭐가 필요하지?
-    constructor(
-        @InjectRepository(Show) private showRepository: Repository<Show>,
-        ) {}
+    // constructor(
+    //     @InjectRepository(Show) private showRepository: Repository<Show>,
+    //     ) {}
 }

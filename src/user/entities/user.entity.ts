@@ -1,4 +1,5 @@
 import { Show } from 'src/show/entities/show.entity';
+import { Tickets } from 'src/tickets/entities/tickets.entity';
 import { Column, Entity, Index, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 
@@ -10,8 +11,9 @@ import { Column, Entity, Index, JoinColumn, OneToMany, PrimaryGeneratedColumn } 
 export class User {
   @PrimaryGeneratedColumn()
   @OneToMany(() => Show, (show) => show.userId)
+  @OneToMany(() => Tickets, (tickets) => tickets.userId)
   @JoinColumn({ name : 'userId'})
-  userId: number;
+  userId: number
 
   @Column({ type: 'bigint', select: false, nullable: false })
   showId : number
