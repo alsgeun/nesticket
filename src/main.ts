@@ -8,6 +8,6 @@ async function bootstrap() {
 
   // 유효성 검사를 하겠다.
   app.useGlobalPipes(new ValidationPipe()); // 해당 코드 추가!
-  await app.listen(3000);
+  await app.listen(3306);
 }
 bootstrap();
