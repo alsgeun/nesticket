@@ -1,8 +1,9 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
+import _ from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -28,8 +29,18 @@ export class UserService {
     });
     }
     
-    signin(email : string, password : string) {
-
+    async signin(email : string, password : string) {
+      const user = await this.userRepository.findOne({
+        select: ['userEmail', 'userPassword'],
+        where: { userEmail : email },
+      });
+      if (_.isNil(user)) {
+        throw new UnauthorizedException('이메일을 확인해주세요.');
+      }
+  
+      if (!(await compare(password, user.userPassword))) {
+        throw new UnauthorizedException('비밀번호를 확인해주세요.');
+      }
     }
 
 
