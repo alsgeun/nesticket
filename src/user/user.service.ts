@@ -54,6 +54,7 @@ export class UserService {
         userEmail : email
       },
       select : {
+        userId : true,
         userEmail : true,
         userName : true,
         userContact : true
@@ -83,6 +84,24 @@ export class UserService {
     return {
       access_token: this.jwtService.sign(payload),
     };
+    }
+
+    // 유저 목록 조회
+    async userList() {
+      const userList = await this.userRepository.find({
+        select : {
+          userId : true,
+          userName : true
+        }
+      })
+      return userList
+    }
+
+    // 로그인한 사용자 정보 삭제
+    deleteUser(user : User) {
+      this.userRepository.delete({
+        userEmail : user.userEmail
+      })
     }
 
     // const payload - findByEmail - jwt strategy 연계
