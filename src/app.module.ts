@@ -13,6 +13,7 @@ import { EntertainersModule } from './entertainers/entertainers.module';
 import { TicketsModule } from './tickets/tickets.module';
 import { Entertainers } from './entertainers/entities/entertainers.entitiy';
 import { Tickets } from './tickets/entities/tickets.entity';
+import { AuthModule } from './auth/auth.module';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -51,6 +52,7 @@ const typeOrmModuleOptions = {
     ShowModule,
     EntertainersModule,
     TicketsModule,
+    AuthModule,
   ],
   controllers: [ShowController],
   providers: [ShowService],
