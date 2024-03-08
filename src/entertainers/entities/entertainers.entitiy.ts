@@ -18,6 +18,9 @@ export class Entertainers {
 
     @Column({ type: 'varchar', select: false, nullable: false })
     entPassword : string
+    
+    @Column({ type: 'varchar', unique : true, nullable: false })
+    entNickName : string
 
     @Column({ type: 'varchar', unique : true, nullable: false })
     entName : string

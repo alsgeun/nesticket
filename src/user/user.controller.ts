@@ -22,7 +22,9 @@ export class UserController {
   const user = await this.userService.signin(signinDto.email, signinDto.password);
   res.cookie('authorization', `Bearer ${user.access_token}`)
   res.send('로그인 성공')
-}
+  }
+  
+  // 전체 사용자 목록 조회
   @Get()
   async userList() {
     const userList = await this.userService.userList()
@@ -36,8 +38,10 @@ export class UserController {
     return {
       userId : user.userId,
       email: user.userEmail,
+      nickName : user.userNickName,
       name : user.userName,
-      contact : user.userContact
+      contact : user.userContact,
+      point : user.Point
     };
   }
 

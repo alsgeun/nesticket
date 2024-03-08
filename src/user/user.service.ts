@@ -17,6 +17,12 @@ export class UserService {
       ) {}
     // 회원가입
     async signup(signupDto : SignUpDto) {
+      // 비밀번호 최소 글자수 설정
+      if (signupDto.password.length < 4) {
+        throw new ConflictException (
+          "비밀번호는 4글자 이상 입력해주세요"
+        )
+      }
       // 비밀번호 확인 체크
       if ( signupDto.password !== signupDto.confirmPassword) {
         throw new ConflictException (
@@ -25,45 +31,73 @@ export class UserService {
       }
       // 이메일 중복 체크
       const existingUser = await this.findByEmail(signupDto.email);
-    if (existingUser) {
+      if (existingUser) {
       throw new ConflictException(
         '이미 해당 이메일로 가입된 사용자가 있습니다!',
       )
-    }
-    // 이름 중복 체크
-    const findUserName = await this.userRepository.findOne({
+      }
+      // 이름 중복 체크
+      const findUserName = await this.userRepository.findOne({
       where : {
         userName : signupDto.name
       }
-    })
-    if (findUserName) {
+      })
+      if (findUserName) {
       throw new ConflictException (
         "이미 등록된 이름이 있습니다."
       )
-    }
-    // 비밀번호 암호화
-    const hashedPassword = await bcrypt.hash(signupDto.password, 10);
-    // 회원가입 유저 정보 저장
-    await this.userRepository.save({
+      }
+      // 닉네임 중복 체크
+      const findUserNickName = await this.userRepository.findOne({
+      where : {
+        userNickName : signupDto.nickname
+      }
+      })
+      if (findUserNickName) {
+      throw new ConflictException (
+        "이미 등록된 닉네임이 있습니다."
+      )
+      }
+      // 카드 번호 중복 체크
+      const findCardNumber = await this.userRepository.findOne({
+      where : {
+        cardNumber : signupDto.cardnumber
+      }
+      })
+      if (findCardNumber) {
+      throw new ConflictException (
+        "이미 등록된 카드번호가 있습니다."
+      )
+      }
+      // 비밀번호 암호화
+      const hashedPassword = await bcrypt.hash(signupDto.password, 10);
+  
+      // 회원가입 유저 정보 저장
+      await this.userRepository.save({
       userEmail : signupDto.email,
       userPassword : hashedPassword,
+      userNickName : signupDto.nickname,
       userName : signupDto.name,
-      userContact : signupDto.contact
-    });
-    // 클라이언트 리턴값
-    const signupInfo = await this.userRepository.findOne({
+      userContact : signupDto.contact,
+      cardNumber : signupDto.cardnumber,
+      cardPassword : signupDto.cardpassword
+      });
+      // 클라이언트 리턴값
+      const signupInfo = await this.userRepository.findOne({
       where : {
         userEmail : signupDto.email
       },
       select : {
         userId : true,
         userEmail : true,
+        userNickName : true,
         userName : true,
         userContact : true
       }
-    })
-    return { signupInfo }
+      })
+      return { signupInfo }
     }
+
     // 로그인
     async signin(email : string, password : string) {
       const user = await this.userRepository.findOne({
@@ -93,6 +127,7 @@ export class UserService {
       const userList = await this.userRepository.find({
         select : {
           userId : true,
+          userNickName : true,
           userName : true
         }
       })
