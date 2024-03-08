@@ -2,9 +2,11 @@ import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/co
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { compare, hash } from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import _ from 'lodash';
 import { JwtService } from '@nestjs/jwt';
+import { SignUpDto } from './dto/sign-up.dto';
+
 
 @Injectable()
 export class UserService {
@@ -14,15 +16,15 @@ export class UserService {
         private readonly jwtService: JwtService,
       ) {}
     // 회원가입
-    async signup(email : string, password : string, confirmPassword : string, name : string, contact : string) {
+    async signup(signupDto : SignUpDto) {
       // 비밀번호 확인 체크
-      if ( password !== confirmPassword) {
+      if ( signupDto.password !== signupDto.confirmPassword) {
         throw new ConflictException (
           "비밀번호가 서로 일치하지 않습니다."
         )
       }
       // 이메일 중복 체크
-      const existingUser = await this.findByEmail(email);
+      const existingUser = await this.findByEmail(signupDto.email);
     if (existingUser) {
       throw new ConflictException(
         '이미 해당 이메일로 가입된 사용자가 있습니다!',
@@ -31,7 +33,7 @@ export class UserService {
     // 이름 중복 체크
     const findUserName = await this.userRepository.findOne({
       where : {
-        userName : name
+        userName : signupDto.name
       }
     })
     if (findUserName) {
@@ -40,18 +42,18 @@ export class UserService {
       )
     }
     // 비밀번호 암호화
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await bcrypt.hash(signupDto.password, 10);
     // 회원가입 유저 정보 저장
     await this.userRepository.save({
-      userEmail : email,
+      userEmail : signupDto.email,
       userPassword : hashedPassword,
-      userName : name,
-      userContact : contact
+      userName : signupDto.name,
+      userContact : signupDto.contact
     });
     // 클라이언트 리턴값
     const signupInfo = await this.userRepository.findOne({
       where : {
-        userEmail : email
+        userEmail : signupDto.email
       },
       select : {
         userId : true,
@@ -76,7 +78,7 @@ export class UserService {
       if (_.isNil(user)) {
         throw new UnauthorizedException('이메일을 확인해주세요.');
       }
-      if (!(await compare(password, user.userPassword))) {
+      if (!(await bcrypt.compare(password, user.userPassword))) {
         throw new UnauthorizedException('비밀번호를 확인해주세요.');
       }
       // 페이로드가 이메일을 담고 있다!
@@ -98,7 +100,20 @@ export class UserService {
     }
 
     // 로그인한 사용자 정보 삭제
-    deleteUser(user : User) {
+    async deleteUser(user : User, password : string) {
+      const savedPassword = await this.userRepository.findOne({
+        where : {
+          userEmail : user.userEmail
+        },
+        select : {
+          userPassword : true
+        }
+      })
+    
+      if (!(await bcrypt.compare(password, savedPassword.userPassword))) {
+        throw new UnauthorizedException('비밀번호를 확인해주세요.');
+      }
+      
       this.userRepository.delete({
         userEmail : user.userEmail
       })

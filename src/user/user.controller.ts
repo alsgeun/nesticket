@@ -5,6 +5,7 @@ import { SignInDto } from './dto/sign-in.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserInfo } from 'src/utils/userInfo.decorator';
 import { User } from './entities/user.entity';
+import { DeleteUserDto } from './dto/deleteUser.dto';
 
 @Controller('users')
 export class UserController {
@@ -12,7 +13,7 @@ export class UserController {
 
   @Post('sign-up')
    async signup(@Body() signupDto: SignUpDto ) {
-  const userInfo = await this.userService.signup(signupDto.email, signupDto.password, signupDto.confirmPassword, signupDto.name, signupDto.contact);
+  const userInfo = await this.userService.signup(signupDto);
   return { message: "회원가입이 완료되었습니다.", userInfo }
   }
 
@@ -43,8 +44,8 @@ export class UserController {
   // 로그인한 사용자 정보 삭제
   @UseGuards(AuthGuard('jwt'))
   @Delete()
-  deleteUser(@UserInfo() user : User) {
-  this.userService.deleteUser(user)
+  async deleteUser(@UserInfo() user : User, @Body() deleteDto : DeleteUserDto) {
+  await this.userService.deleteUser(user, deleteDto.password)
   return {message : "정보가 성공적으로 삭제 되었습니다."}
   }
 }
