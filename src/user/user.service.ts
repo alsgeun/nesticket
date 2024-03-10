@@ -30,7 +30,7 @@ export class UserService {
         )
       }
       // 이메일 중복 체크
-      const existingUser = await this.findByEmail(signupDto.email);
+      const existingUser = await this.findUserEmail(signupDto.email);
       if (existingUser) {
       throw new ConflictException(
         '이미 해당 이메일로 가입된 사용자가 있습니다!',
@@ -155,7 +155,7 @@ export class UserService {
     }
 
     // const payload - findByEmail - jwt strategy 연계
-    async findByEmail(email: string) {
+    async findUserEmail(email: string) {
         return await this.userRepository.findOneBy({ userEmail : email });
     }
 }

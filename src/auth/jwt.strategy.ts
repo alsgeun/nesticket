@@ -5,10 +5,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
 import _ from 'lodash';
 import { ConfigService } from '@nestjs/config';
+import { EntService } from 'src/entertainers/entertainers.service';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly userService: UserService,
+    private readonly entService: EntService,
     private readonly configService: ConfigService,
   ) {
     super({
@@ -28,10 +30,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     return null;
   }
   async validate(payload: any) {
-    const user = await this.userService.findByEmail(payload.email);
-    if (_.isNil(user)) {
+    const user = await this.userService.findUserEmail(payload.email);
+    const ent = await this.entService.findByEntEmail(payload.email)
+    console.log("-----------------------------------------")
+    console.log(user)
+    console.log(ent)
+    if (_.isNil(user) && _.isNil(ent)) {
       throw new NotFoundException('해당하는 사용자를 찾을 수 없습니다.');
     }
-    return user;
+    console.log("aa-------------aa")
+    console.log(ent)
+    console.log(user)
+    return  user !== null ? user : ent
   }
 }
