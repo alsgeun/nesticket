@@ -5,6 +5,7 @@ import { Show } from './entities/show.entity';
 import { CreateShowDto } from './dto/createShow.dto';
 import { Category } from './types/showCategory.type';
 import { JwtService } from '@nestjs/jwt';
+import { Entertainers } from 'src/entertainers/entities/entertainers.entitiy';
 
 @Injectable()
 export class ShowService {
@@ -19,7 +20,7 @@ export class ShowService {
       ) {}
     
       // 공연 등록
-     async createShow (createShowDto : CreateShowDto) {
+     async createShow (user : Entertainers, createShowDto : CreateShowDto) {
         // 공연 제목 최소 글자수 설정
         if (createShowDto.title.length < 2) {
             throw new ConflictException (
@@ -57,7 +58,8 @@ export class ShowService {
             showContent : createShowDto.content,
             showSchedule : createShowDto.schedule,
             showPerformer : createShowDto.performer,
-            showCategory : createShowDto.category 
+            showCategory : createShowDto.category,
+            entId : user.entId
         })
         return showInfo
      }

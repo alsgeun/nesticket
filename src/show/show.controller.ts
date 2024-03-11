@@ -5,6 +5,8 @@ import { Role } from 'src/types/roles.type';
 import { CreateShowDto } from './dto/createShow.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from 'src/auth/roles.guard';
+import { EntInfo } from 'src/utils/entInfo.decorator';
+import { Entertainers } from 'src/entertainers/entities/entertainers.entitiy';
 
 @Controller('show')
 export class ShowController {
@@ -13,8 +15,8 @@ export class ShowController {
     @UseGuards(RolesGuard)
     @Roles(Role.Entertainer)
     @Post('create')
-    async createShow (@Body() createShowDto: CreateShowDto ) {
-    const showInfo = await this.showService.createShow(createShowDto)
+    async createShow (@EntInfo() user: Entertainers, @Body() createShowDto: CreateShowDto ) {
+    const showInfo = await this.showService.createShow(user,createShowDto)
         return { message : "공연 등록이 완료되었습니다." , showInfo }
     }
 
