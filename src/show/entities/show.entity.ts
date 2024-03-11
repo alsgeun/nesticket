@@ -14,19 +14,14 @@ export class Show {
   @OneToMany(() => Tickets, (tickets) => tickets.showId)
   @JoinColumn({ name : 'showId'})
   showId: number;
-
+  // Entertainer 1:N show 관계 정의
+  // ()=> Entertainers : Entertainers 라는 테이블 지정
+  // (entertainers) => entertatiners.entId : Entertainers 엔티티 내에서 show와의 관계 정의, Entertainers 엔티티의 entId 필드 참조
+  // 외래키인 'entId' 지정해서 엔티티간 연결,
+  // 각 엔티티속 entId 끼리 매핑
   @ManyToOne(() => Entertainers, (entertainers) => entertainers.entId)
   @JoinColumn({ name : 'entId'})
   entId : number
-
-  // user 1:N show 관계 정의
-  // ()=> User : User라는 테이블 지정
-  // (users) => user.showId : User 엔티티 내에서 show와의 관계 정의, User 엔티티의 showId 필드 참조
-  // 외래키인 'userId' 지정해서 엔티티간 연결,
-  // 각 엔티티속 userId 끼리 매핑
-  @ManyToOne(() => User,(users) => users.showId)
-  @JoinColumn({ name : 'userId'})
-  userId : number
 
   @Column({ type: 'bigint', select: false, nullable: false })
   ticketId : number

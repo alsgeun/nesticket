@@ -151,7 +151,6 @@ export class EntService {
   }
   // const payload - findByEmail - jwt strategy 연계
   async findByEntEmail(email: string) {
-    console.log("aaaaa",email)
     return await this.entRepository.findOneBy({ entEmail: email });
   }
 

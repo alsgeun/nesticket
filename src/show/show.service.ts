@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Show } from './entities/show.entity';
@@ -6,6 +6,7 @@ import { CreateShowDto } from './dto/createShow.dto';
 import { Category } from './types/showCategory.type';
 import { JwtService } from '@nestjs/jwt';
 import { Entertainers } from 'src/entertainers/entities/entertainers.entitiy';
+import { UpdateShowDto } from './dto/updateShow.dto';
 
 @Injectable()
 export class ShowService {
@@ -62,5 +63,52 @@ export class ShowService {
             entId : user.entId
         })
         return showInfo
+     }
+
+     // 공연 수정
+     async updateShow (user : Entertainers, showId : number, updateShowDto : UpdateShowDto) {
+      const findShowId = await this.showRepository.findOne({
+        where : {
+          showId : +showId,
+        },
+        // relations: ['entId'],
+        //select: ['entId'] 왜 이거만 쓰면 에러가 뜨는지..
+      })
+      console.log("----------------------",findShowId)
+      if (!findShowId) {
+        throw new NotFoundException (
+          "수정하려는 공연이 존재하지 않습니다."
+        )
+      }
+
+      // console.log("ffffffffffffffffff",findShowId.entId)
+      // console.log("--------------",user.entId)
+      // if (findShowId.entId !== user.entId) {
+      //   throw new ConflictException (
+      //     "본인 공연만 수정 가능합니다."
+      //   )
+      // }
+      await this.showRepository.update( showId, {   // update에서 첫번째 인자는 where문의 역할을 함
+        showTitle : updateShowDto.title,
+        showVenue : updateShowDto.venue,
+        showContent : updateShowDto.content,
+        showSchedule : updateShowDto.schedule,
+        showPerformer : updateShowDto.performer,
+        showCategory : updateShowDto.category
+      })
+      const updatedShow = await this.showRepository.findOne({
+        where : {
+          showId : showId
+        },
+        select : {
+          showTitle : true,
+          showVenue : true,
+          showContent : true,
+          showSchedule : true,
+          showPerformer : true,
+          showCategory : true
+        }
+      })
+      return { updatedShow }
      }
 }

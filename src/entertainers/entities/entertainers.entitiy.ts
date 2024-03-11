@@ -8,7 +8,7 @@ import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "t
 export class Entertainers {
     @PrimaryGeneratedColumn()
     @OneToMany(() => Show, (show) => show.entId)
-    @JoinColumn({ name : 'entId'})
+    @JoinColumn({ name : 'entertainerId'})
     entId : number
 
     @Column({ type: 'bigint', select: false, nullable: false })

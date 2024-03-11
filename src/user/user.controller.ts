@@ -41,6 +41,7 @@ export class UserController {
       nickName : user.userNickName,
       name : user.userName,
       contact : user.userContact,
+      role : user.role,
       point : user.Point
     };
   }

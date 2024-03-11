@@ -44,6 +44,7 @@ export class EntController {
        nickName : user.entNickName,
        name : user.entName,
        contact : user.entContact,
+       role : user.role
      };
    }
    // 로그인한 엔터테이너 정보 삭제
