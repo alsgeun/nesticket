@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ShowService } from './show.service';
 import { Roles } from 'src/auth/roles.decorator';
 import { Role } from 'src/types/roles.type';
@@ -26,6 +26,12 @@ export class ShowController {
     async updateShow (@EntInfo() user: Entertainers, @Param('showId') showId: number, @Body() updateShowDto : UpdateShowDto) {
     const updatedShow = await this.showService.updateShow(user, showId, updateShowDto)
         return { message : "공연 수정이 완료되었습니다." , updatedShow}
+    }
+
+    @Get()
+    async showList() {
+    const showList = await this.showService.showList()
+    return { showList }
     }
 
 

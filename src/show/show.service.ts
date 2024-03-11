@@ -111,4 +111,16 @@ export class ShowService {
       })
       return { updatedShow }
      }
-}
+
+     async showList () {
+      const showList = await this.showRepository.find({
+        select : {
+          showId : true,
+          showTitle : true,
+          showVenue : true,
+          showSchedule : true
+        }
+      })
+      return showList
+     }
+} 
