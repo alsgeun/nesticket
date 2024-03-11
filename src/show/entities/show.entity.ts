@@ -31,22 +31,26 @@ export class Show {
   @Column({ type: 'bigint', select: false, nullable: false })
   ticketId : number
 
-  @Column({ type: 'varchar', select: true, nullable: false })
+  @Column({ type: 'varchar', nullable: false })
   showTitle : string
 
-  @Column({ type: 'varchar', select: true, nullable: false })
+  @Column({ type: 'varchar', nullable: false })
+  showVenue : string
+
+  @Column({ type: 'varchar', nullable: false })
   showContent : string
 
-  @Column({ type: 'varchar', select: true, nullable: false })
-  showSchedule : Date
+  @Column({ type: 'varchar', nullable: false })
+  showSchedule : string
 
-  @Column({ type: 'varchar', select: true, nullable: false })
+  @Column({ type: 'varchar', nullable: false })
   showPerformer : string
 
   @Column({
     type: 'enum', enum: Category,
-    default: Category.temporary, select: true})
+    default: Category.Temporary })
   showCategory : Category
+
 
   
 }

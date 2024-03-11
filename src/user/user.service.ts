@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import _ from 'lodash';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/sign-up.dto';
+import { Role } from 'src/types/roles.type';
 
 
 @Injectable()
@@ -79,6 +80,7 @@ export class UserService {
       userNickName : signupDto.nickname,
       userName : signupDto.name,
       userContact : signupDto.contact,
+      role : Role.User,
       cardNumber : signupDto.cardnumber,
       cardPassword : signupDto.cardpassword
       });

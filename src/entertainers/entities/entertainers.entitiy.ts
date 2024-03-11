@@ -1,4 +1,5 @@
 import { Show } from "src/show/entities/show.entity";
+import { Role } from "src/types/roles.type";
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
@@ -27,4 +28,7 @@ export class Entertainers {
 
     @Column({ type: 'varchar', nullable: false })
     entContact : string
+
+    @Column({ type: 'enum', enum: Role, default: Role.Entertainer })
+    role: Role;
 }

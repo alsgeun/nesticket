@@ -1,4 +1,5 @@
 import { Show } from "src/show/entities/show.entity";
+import { User } from "src/user/entities/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
@@ -12,6 +13,8 @@ export class Tickets {
     @JoinColumn({ name : 'showId'})
     showId : number
 
+    @ManyToOne(() => User, (user) => user.userId)
+    @JoinColumn({ name : 'userId'})
     @Column({ type: 'bigint', select: false, nullable: false })
     userId : number
 

@@ -38,8 +38,8 @@ export class EntController {
    @UseGuards(AuthGuard('jwt'))  // AuthGuard는 nest.js에서 제공하는 가드(jwt를 통한)
    @Get('email')                
    getEmail(@EntInfo() user: Entertainers) { // 가드를 getEmail 이라는 함수에 대해서만 쓸 것이다.
-    console.log("bb--------------bb") 
-    console.log(user) // 데코레이터에서 왜 ent가 user로 둔갑하는지 튜터님께 꼭 여쭤볼 것!
+    // console.log("bb--------------bb") 
+    // console.log(user) // 데코레이터에서 왜 ent가 user로 둔갑하는지 튜터님께 꼭 여쭤볼 것!
     return {
        entId : user.entId,
        email: user.entEmail,

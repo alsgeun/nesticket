@@ -1,9 +1,10 @@
 export enum Category {
-    temporary,
-    Concert,
-    Festival,
-    FanMetting,
-    Orchestra,
-    Musical,
-    Sport
+    Temporary = 'Temporary',
+    Concert = 'Concert',
+    Festival = 'Festival',
+    FanMeeting = 'FanMeeting',
+    Orchestra = 'Orchestra',
+    Musical = 'Musical',
+    Sport = 'Sport',
+    Etc = 'Etc'
   }

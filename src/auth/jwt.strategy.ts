@@ -33,14 +33,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.userService.findUserEmail(payload.email);
     const ent = await this.entService.findByEntEmail(payload.email)
     console.log("-----------------------------------------")
-    console.log(user)
-    console.log(ent)
+    // console.log(user)
+    // console.log(ent)
     if (_.isNil(user) && _.isNil(ent)) {
       throw new NotFoundException('해당하는 사용자를 찾을 수 없습니다.');
     }
-    console.log("aa-------------aa")
-    console.log(ent)
-    console.log(user)
+    // console.log("aa-------------aa")
+    // console.log(ent)
+    // console.log(user)
     return  user !== null ? user : ent
   }
 }

@@ -6,7 +6,7 @@ export const EntInfo = createParamDecorator(
       // http 요청 객체를 가져와서
       const request = ctx.switchToHttp().getRequest();
       // ent 속성 반환. ent가 존재하지 않는다면 null 반환
-      console.log("asdsaasas", request) // 아니 왜 ent가 user로 둔갑??
+      //console.log("asdsaasas", request) // 아니 왜 ent가 user로 둔갑?? -> 알고보니 내장된 거라 수정 불가능.
       return request.user ? request.user : null;
     },
   );

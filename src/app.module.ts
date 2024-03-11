@@ -56,7 +56,7 @@ const typeOrmModuleOptions = {
     AuthModule,
     PointsModule,
   ],
-  controllers: [ShowController],
-  providers: [ShowService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
