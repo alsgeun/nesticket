@@ -1,12 +1,13 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Show } from './entities/show.entity';
 import { CreateShowDto } from './dto/createShow.dto';
 import { Category } from './types/showCategory.type';
 import { JwtService } from '@nestjs/jwt';
 import { Entertainers } from 'src/entertainers/entities/entertainers.entitiy';
 import { UpdateShowDto } from './dto/updateShow.dto';
+import { SearchShowDto } from './dto/searchShow.dto';
 
 @Injectable()
 export class ShowService {
@@ -136,5 +137,21 @@ export class ShowService {
         )
       }
       return detailShow
+     }
+
+     // 공연 제목 검색
+     async searchShowData (search : string) {
+      const searchShowData = await this.showRepository.find({
+        where : {
+          showTitle : Like(`%${search}%`)
+        },
+        select : {
+          showId : true,
+          showTitle : true,
+          showVenue : true,
+          showSchedule : true
+        }
+      })
+      return searchShowData
      }
 } 

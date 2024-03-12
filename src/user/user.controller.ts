@@ -36,13 +36,14 @@ export class UserController {
   @Get('email')                
   getEmail(@UserInfo() user: User) { // 가드를 getEmail 이라는 함수에 대해서만 쓸 것이다.
     return {
-      userId : user.userId,
-      email: user.userEmail,
-      nickName : user.userNickName,
-      name : user.userName,
-      contact : user.userContact,
-      role : user.role,
-      point : user.Point
+      user
+      // userId : user.userId,
+      // email: user.userEmail,
+      // nickName : user.userNickName,
+      // name : user.userName,
+      // contact : user.userContact,
+      // role : user.role,
+      // point : user.Point
     };
   }
 
