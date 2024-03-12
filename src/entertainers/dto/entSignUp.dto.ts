@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator"
+import { IsEmail, IsNotEmpty, IsString, Length } from "class-validator"
 
 export class EntSignUpDto {
     @IsEmail()
@@ -7,6 +7,7 @@ export class EntSignUpDto {
   
     @IsString()
     @IsNotEmpty({ message: '비밀번호를 입력해주세요.' })
+    @Length(4, 255, { message : '비밀번호는 4글자 이상 입력해주세요' })
     password : string
   
     @IsString()

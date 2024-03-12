@@ -23,32 +23,6 @@ export class ShowService {
     
       // 공연 등록
      async createShow (user : Entertainers, createShowDto : CreateShowDto) {
-        // 공연 제목 최소 글자수 설정
-        if (createShowDto.title.length < 2) {
-            throw new ConflictException (
-              "공연 제목은 2글자 이상 입력해주세요"
-            )
-          }
-        if (createShowDto.venue.length < 2) {
-            throw new ConflictException (
-              "장소는 2글자 이상 입력해주세요"
-            )
-          }
-        if (createShowDto.content.length < 4) {
-            throw new ConflictException (
-              "공연 내용은 4글자 이상 입력해주세요"
-            )
-          }
-        if (createShowDto.schedule.length < 8) {
-            throw new ConflictException (
-              "공연 일정은 8글자 이상 입력해주세요"
-            )
-          }
-        if (createShowDto.performer.length < 2) {
-            throw new ConflictException (
-              "출연진은 2글자 이상 입력해주세요"
-            )
-          }
         if (!Object.values(Category).includes(createShowDto.category)) {
             throw new ConflictException("존재하지 않는 카테고리입니다.");
           } // Category속 내용물을 배열 형태로 전환하고,

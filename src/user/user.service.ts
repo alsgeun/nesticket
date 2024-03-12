@@ -18,12 +18,6 @@ export class UserService {
       ) {}
     // 회원가입
     async signup(signupDto : SignUpDto) {
-      // 비밀번호 최소 글자수 설정
-      if (signupDto.password.length < 4) {
-        throw new ConflictException (
-          "비밀번호는 4글자 이상 입력해주세요"
-        )
-      }
       // 비밀번호 확인 체크
       if ( signupDto.password !== signupDto.confirmPassword) {
         throw new ConflictException (

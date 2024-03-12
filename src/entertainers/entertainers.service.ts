@@ -25,10 +25,6 @@ export class EntService {
 
   // 회원가입
   async signup(entSignUpDto: EntSignUpDto) {
-    // 비밀번호 최소 글자수 설정
-    if (entSignUpDto.password.length < 4) {
-      throw new ConflictException('비밀번호는 4글자 이상 입력해주세요');
-    }
     // 비밀번호 확인 체크
     if (entSignUpDto.password !== entSignUpDto.confirmPassword) {
       throw new ConflictException('비밀번호가 서로 일치하지 않습니다.');
