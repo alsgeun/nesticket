@@ -52,7 +52,7 @@ export class ShowService {
             throw new ConflictException("존재하지 않는 카테고리입니다.");
           } // Category속 내용물을 배열 형태로 전환하고,
           // includes를 통해 dto속 category값이 변환된 Category 중 일치하는 것이 있는지 확인
-          
+        const entId = user.entId
         const showInfo = await this.showRepository.save ({
             showTitle : createShowDto.title,
             showVenue : createShowDto.venue,
@@ -60,7 +60,7 @@ export class ShowService {
             showSchedule : createShowDto.schedule,
             showPerformer : createShowDto.performer,
             showCategory : createShowDto.category,
-            entId : user.entId
+            entId : entId
         })
         return showInfo
      }
@@ -71,23 +71,21 @@ export class ShowService {
         where : {
           showId : +showId,
         },
-        // relations: ['entId'],
+        // loadRelationIds: true,
+        relations: ['entertainer'],
         //select: ['entId'] 왜 이거만 쓰면 에러가 뜨는지..
       })
-      console.log("----------------------",findShowId)
       if (!findShowId) {
         throw new NotFoundException (
           "수정하려는 공연이 존재하지 않습니다."
         )
       }
 
-      // console.log("ffffffffffffffffff",findShowId.entId)
-      // console.log("--------------",user.entId)
-      // if (findShowId.entId !== user.entId) {
-      //   throw new ConflictException (
-      //     "본인 공연만 수정 가능합니다."
-      //   )
-      // }
+      if (findShowId.entertainer.entId !== user.entId) {
+        throw new ConflictException (
+          "본인 공연만 수정 가능합니다."
+        )
+      }
       await this.showRepository.update( showId, {   // update에서 첫번째 인자는 where문의 역할을 함
         showTitle : updateShowDto.title,
         showVenue : updateShowDto.venue,
@@ -112,6 +110,7 @@ export class ShowService {
       return { updatedShow }
      }
 
+     // 공연 목록
      async showList () {
       const showList = await this.showRepository.find({
         select : {
@@ -122,5 +121,20 @@ export class ShowService {
         }
       })
       return showList
+     }
+
+     // 공연 상세조회
+     async detailShow (showId : number) {
+      const detailShow = await this.showRepository.findOne({
+        where : {
+          showId : +showId
+        }
+      })
+      if (!detailShow) {
+        throw new NotFoundException (
+          "공연이 존재하지 않습니다."
+        )
+      }
+      return detailShow
      }
 } 

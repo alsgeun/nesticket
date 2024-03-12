@@ -10,8 +10,8 @@ export class Tickets {
     ticketId : number
 
     @ManyToOne(() => Show, (show) => show.showId)
-    @JoinColumn({ name : 'showId'})
-    showId : number
+    // @JoinColumn({ name : 'showId'})
+    show : Show[]
 
     @ManyToOne(() => User, (user) => user.userId)
     @JoinColumn({ name : 'userId'})

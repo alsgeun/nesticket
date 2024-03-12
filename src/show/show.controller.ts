@@ -34,6 +34,11 @@ export class ShowController {
     return { showList }
     }
 
+    @Get(':showId')
+    async detailShow(@Param('showId') showId: number) {
+        const detailShow = await this.showService.detailShow(showId)
+    return { detailShow }
+    }
 
 
 
