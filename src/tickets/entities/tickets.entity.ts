@@ -1,6 +1,6 @@
 import { Show } from "src/show/entities/show.entity";
 import { User } from "src/user/entities/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
     name: 'tickets',
@@ -9,13 +9,13 @@ export class Tickets {
     @PrimaryGeneratedColumn()
     ticketId : number
 
-    @ManyToOne(() => Show, (show) => show.showId)
+    @ManyToOne(() => Show, (show) => show.tickets)
     // @JoinColumn({ name : 'showId'})
-    show : Show[]
+    showId : number
 
     @ManyToOne(() => User, (user) => user.userId)
-    @JoinColumn({ name : 'userId'})
-    @Column({ type: 'bigint', select: false, nullable: false })
+    // @JoinColumn({ name : 'userId'})
+    // @Column({ type: 'bigint', select: false, nullable: false })
     userId : number
 
     @Column({ type : 'bigint', nullable: false })
