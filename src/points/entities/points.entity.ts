@@ -11,12 +11,16 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
     @Column({ type: 'bigint', select: false, nullable: false })
     pointId: number
   
+    @ManyToOne(() => User, (user) => user.points)
+    @JoinColumn([{ referencedColumnName : 'userId', name : 'userId' }])
+    user : User
+
+    @Column({ type: 'bigint', name : 'userId', nullable: false })
+    userId : number
+
     @Column({ type: 'bigint', nullable: false, default : 1000000 })
     Point : number
     
     @Column({ type: 'varchar' })
     pointHistory : string
-
-    @ManyToOne(() => User, (user) => user.userId)
-    userId : number
   }

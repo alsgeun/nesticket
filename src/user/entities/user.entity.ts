@@ -12,10 +12,13 @@ import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 't
 // 이걸 통해 db와 orm이 통신함
 export class User {
   @PrimaryGeneratedColumn()
-  @OneToMany(() => Tickets, (tickets) => tickets.userId)
-  @OneToMany(() => Points, (points) => points.userId)
-  // @JoinColumn({ name : 'userId'})
   userId: number
+
+  @OneToMany(() => Tickets, (tickets) => tickets.user)
+  tickets : Tickets[]
+
+  @OneToMany(() => Points, (points) => points.user)
+  points : Points[]
 
   @Column({ type: 'varchar', unique: true, nullable: false })
   userEmail: string;

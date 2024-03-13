@@ -1,15 +1,22 @@
 import { Show } from "src/show/entities/show.entity";
 import { Tickets } from "src/tickets/entities/tickets.entity";
-import { Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 export class Seat {
     @PrimaryGeneratedColumn()
-    @ManyToOne(() => Tickets, (tickets) => tickets.ticketId)
     seatId : number
 
-    @ManyToOne(() => Show, (show) => show.showId)
+    @ManyToOne(() => Show, (show) => show.seats)
+    @JoinColumn([{ referencedColumnName : 'showId', name : 'showId' }])
+    show : Show
+
+    @Column({ type: 'bigint', name : 'entId', nullable: false })
     showId : number
 
+    @ManyToOne(() => Tickets, (tickets) => tickets.seats)
+    @JoinColumn([{ referencedColumnName : 'ticketId', name : 'ticketId' }])
+    ticket : Tickets
+    
     @Column({ type : 'bigint', nullable: false})
     ticketId : number
 

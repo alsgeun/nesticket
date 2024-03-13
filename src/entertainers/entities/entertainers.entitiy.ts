@@ -10,7 +10,7 @@ export class Entertainers {
     //@OneToMany(() => Show, (show) => show.entId)
     // @JoinColumn({ name : 'entertainerId'})
     entId : number
-
+    
     @OneToMany(() => Show, (show) => show.entertainer)
     shows : Show[]
 

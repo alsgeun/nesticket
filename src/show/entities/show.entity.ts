@@ -12,7 +12,6 @@ import { Seat } from "src/seat/entities/seat.entity";
 // 이걸 통해 db와 orm이 통신함
 export class Show {
   @PrimaryGeneratedColumn()
-  @OneToMany(() => Seat, (seat) => seat.showId)
   showId: number
   // Entertainer 1:N show 관계 정의
   // ()=> Entertainers : Entertainers 라는 테이블 지정
@@ -26,7 +25,10 @@ export class Show {
   @Column({ type: 'bigint', name : 'entId', nullable: false })
   entId : number
 
-  @OneToMany(() => Tickets, (tickets) => tickets.showId)
+  @OneToMany(() => Seat, (seats) => seats.show)
+  seats: Seat[]
+
+  @OneToMany(() => Tickets, (tickets) => tickets.show)
   tickets: Tickets[]
 
   @Column({ type: 'varchar', nullable: false })
@@ -48,7 +50,5 @@ export class Show {
     type: 'enum', enum: Category,
     default: Category.Temporary })
   showCategory : Category
-
-
   
 }
