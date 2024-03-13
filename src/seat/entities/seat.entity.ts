@@ -1,7 +1,10 @@
 import { Show } from "src/show/entities/show.entity";
 import { Tickets } from "src/tickets/entities/tickets.entity";
-import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
+@Entity({
+    name: 'seat',
+  })
 export class Seat {
     @PrimaryGeneratedColumn()
     seatId : number

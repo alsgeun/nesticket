@@ -17,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
 import { PointsModule } from './points/points.module';
 import { SeatModule } from './seat/seat.module';
 import { Seat } from './seat/entities/seat.entity';
+import { Points } from './points/entities/points.entity';
 
 const typeOrmModuleOptions = {
   useFactory: async (
@@ -29,7 +30,7 @@ const typeOrmModuleOptions = {
     host: configService.get('DB_HOST'),
     port: configService.get('DB_PORT'),
     database: configService.get('DB_NAME'),
-    entities: [User, Show, Entertainers, Tickets, Seat], // 엔티티는 반드시 여기에 명시!
+    entities: [User, Show, Entertainers, Tickets, Seat, Points], // 엔티티는 반드시 여기에 명시!
     synchronize: configService.get('DB_SYNC'),
     logging: true,
   }),

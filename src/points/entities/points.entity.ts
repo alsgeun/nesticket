@@ -8,7 +8,6 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
   // 이걸 통해 db와 orm이 통신함
   export class Points {
     @PrimaryGeneratedColumn()
-    @Column({ type: 'bigint', select: false, nullable: false })
     pointId: number
   
     @ManyToOne(() => User, (user) => user.points)
