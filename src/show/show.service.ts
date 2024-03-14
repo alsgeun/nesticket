@@ -56,10 +56,11 @@ export class ShowService {
     // for문을 돌며 입력한 값을 차례대로 할당
     for (let j = 0; j < coordinate.length; j++) {
       for (let i = 1; i <= ea; i++) {
+        const seatNumber = `${coordinate[j]}-${i}`
       const seat = await this.seatRepository.save({
         showId : showInfo.showId,
         seatPrice : createShowDto.price,
-        seatNumber: coordinate[j],
+        seatNumber: seatNumber,
       });
       seats.push(seat); // seats를 아직 안써먹을 거라 없어도 무관한데..
     }
