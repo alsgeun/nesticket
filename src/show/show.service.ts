@@ -121,8 +121,24 @@ export class ShowService {
         showTitle: true,
         showVenue: true,
         showSchedule: true,
+        // seats : {
+        //   seatNumber : true,
+        //   buyingPossible : true,
+        //   seatPrice : true
+        // }
       },
+      // relations: ['seats'],
     });
+  //   const shows = await getConnection()
+  // .createQueryBuilder(Show, "show")
+  // .select(["show.showId", "show.showTitle"])
+  // .addSelect(subQuery => {
+  //   return subQuery
+  //     .select(["seat.buyingPossible", "seat.seatPrice"])
+  //     .from(Seat, "seat")
+  //     .where("seat.showId = show.showId");
+  // }, "seats")
+  // .getMany();
     return showList;
   }
 
@@ -132,6 +148,22 @@ export class ShowService {
       where: {
         showId: +showId,
       },
+      select : {
+        showId : true,
+        entId : true,
+        showTitle : true,
+        showVenue : true,
+        showContent : true,
+        showSchedule : true,
+        showPerformer : true,
+        showCategory : true,
+        seats : {
+          seatNumber : true,
+          buyingPossible : true,
+          seatPrice : true
+        }
+      },
+      relations: ['seats'],
     });
     if (!detailShow) {
       throw new NotFoundException('공연이 존재하지 않습니다.');
