@@ -56,7 +56,9 @@ export class ShowService {
     // for문을 돌며 입력한 값을 차례대로 할당
     for (let j = 0; j < coordinate.length; j++) {
       for (let i = 1; i <= ea; i++) {
-        const seatNumber = `${coordinate[j]}-${i}`
+      // coordinate[j] : A,B,C,D 라고 적은 것을 [j] 값으로 각각 분해해서 할당, [j]가 없다면 A,B,C,D가 붙은채로 나감(A,B,C-1 // A,B,C-2)
+      // ${i} : ea값 // 결국 A-1, A-2, B-1, B-2 형식 완성
+      const seatNumber = `${coordinate[j]}-${i}`  
       const seat = await this.seatRepository.save({
         showId : showInfo.showId,
         seatPrice : createShowDto.price,
