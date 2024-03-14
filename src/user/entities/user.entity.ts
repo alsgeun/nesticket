@@ -34,7 +34,7 @@ export class User {
   role: Role;
 
   @Column({ type: 'bigint', nullable: false, default : 1000000 })
-    Point : number
+  Point : number
 
   @Column({ type: 'varchar', unique : true, select: false, nullable: false })
   cardNumber : string
