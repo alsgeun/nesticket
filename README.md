@@ -9,7 +9,7 @@
 
 ERD
 =============================================================
-![alt text](image.png)
+![alt text](image-1.png)
 ERD LINK : https://drawsql.app/teams/-883/diagrams/nesticket
 
 

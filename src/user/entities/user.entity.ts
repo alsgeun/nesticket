@@ -1,5 +1,3 @@
-import { Points } from 'src/points/entities/points.entity';
-import { Show } from 'src/show/entities/show.entity';
 import { Tickets } from 'src/tickets/entities/tickets.entity';
 import { Role } from 'src/types/roles.type';
 import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -16,9 +14,6 @@ export class User {
 
   @OneToMany(() => Tickets, (tickets) => tickets.user)
   tickets : Tickets[]
-
-  @OneToMany(() => Points, (points) => points.user)
-  points : Points[]
 
   @Column({ type: 'varchar', unique: true, nullable: false })
   userEmail: string;
@@ -37,6 +32,9 @@ export class User {
   
   @Column({ type: 'enum', enum: Role, default: Role.User })
   role: Role;
+
+  @Column({ type: 'bigint', nullable: false, default : 1000000 })
+    Point : number
 
   @Column({ type: 'varchar', unique : true, select: false, nullable: false })
   cardNumber : string
