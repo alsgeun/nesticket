@@ -5,6 +5,7 @@ import { ShowService } from './show.service';
 import { ShowController } from './show.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Seat } from 'src/seat/entities/seat.entity';
 
 @Module({
     imports: [
@@ -14,7 +15,7 @@ import { ConfigService } from '@nestjs/config';
         }),
         inject: [ConfigService],
       }),
-      TypeOrmModule.forFeature([Show]),
+      TypeOrmModule.forFeature([Show,Seat]),
     ],
     providers: [ShowService],
     controllers: [ShowController],

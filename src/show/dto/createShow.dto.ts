@@ -1,5 +1,6 @@
-import { IsDate, IsEnum, IsNotEmpty, IsString, Length } from "class-validator";
+import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsString, Length } from "class-validator";
 import { Category } from "../types/showCategory.type";
+import { Coordinate } from "src/seat/types/seatCoordinate.type";
 
 // DTO : 데이터 전송 오브젝트. 클라이언트의 데이터 요청,응답시 사용하게 되는 것
 export class CreateShowDto {
@@ -29,6 +30,18 @@ export class CreateShowDto {
     performer : string;
 
     @IsEnum(Category)
-    @IsNotEmpty({ message: '카테고리를 입력해주세요.' })
+    @IsNotEmpty({ message: '카테고리를 설정해주세요.' })
     category : Category;
+
+    @IsString({each:true}) // 배열로 받겠다.
+    @IsNotEmpty({ message : '좌석 좌표를 입력해주세요.'})
+    coordinate : string []  
+
+    @IsNumber()
+    @IsNotEmpty({ message : '좌석 갯수를 설정해주세요.'})
+    ea : number
+
+    @IsNumber()
+    @IsNotEmpty({ message : '좌석 가격을 측정해주세요.'})
+    price : number
   }
