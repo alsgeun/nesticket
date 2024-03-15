@@ -19,6 +19,7 @@ export class TicketsService {
     private seatRepository: Repository<Seat>,
   ) {}
 
+  // 티켓 구매
   async buyingTickets(user: User, showId: number) {
     const userId = user.userId;
     // 공연 정보 조회
@@ -33,6 +34,7 @@ export class TicketsService {
           seatPrice: true,
         },
       },
+      relations : ['seats']
     });
     if (!show) {
       throw new NotFoundException('공연이 없습니다.');
@@ -43,19 +45,21 @@ export class TicketsService {
       userId,
       showId,
     });
-    // 포인트 차감 -> show 가격 정보  // 해결 X
+  
+    // 포인트 차감 -> show 가격 정보  
     //Optional Chaining 연산자 사용
     let price = 0; 
     if (show && show.seats && show.seats.length > 0) {  // 공연,공연의 좌석,공연의 좌석여부가 있다면
       price = show.seats[0].seatPrice;      // 좌석 가격을 price 변수에 할당
     }
-
+    console.log(price)
     const userInfo = await this.userRepository.findOneBy({
       userId: +userId,
     });
-    userInfo.Point = userInfo.Point - price;
-
-    await this.userRepository.save(userInfo);
+    
+    await this.userRepository.update(userId, {
+      Point : userInfo.Point - price
+    });
 
     // 좌석 갯수 줄이기
     // 좌석 정보 가져오기

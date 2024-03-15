@@ -33,7 +33,7 @@ export class User {
   @Column({ type: 'enum', enum: Role, default: Role.User })
   role: Role;
 
-  @Column({ type: 'bigint', nullable: false, default : 1000000 })
+  @Column({ type: 'bigint', nullable: false })
   Point : number
 
   @Column({ type: 'varchar', unique : true, select: false, nullable: false })

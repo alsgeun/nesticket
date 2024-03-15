@@ -76,7 +76,8 @@ export class UserService {
       userContact : signupDto.contact,
       role : Role.User,
       cardNumber : signupDto.cardnumber,
-      cardPassword : signupDto.cardpassword
+      cardPassword : signupDto.cardpassword,
+      Point : 1000000
       });
       // 클라이언트 리턴값
       const signupInfo = await this.userRepository.findOne({
