@@ -1,4 +1,4 @@
-import { Controller, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { TicketsService } from './tickets.service';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
@@ -20,5 +20,13 @@ export class TicketsController {
         message : '공연 구매에 성공 했습니다.',
         data
     }
+    }
+
+    @UseGuards(RolesGuard)
+    @Roles(Role.User)
+    @Get()
+    async ticketTrace(@UserInfo() user : User) {
+        const trace = await this.ticketsService.ticketTrace(user)
+        return { trace }
     }
 }

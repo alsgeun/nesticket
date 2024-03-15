@@ -44,10 +44,10 @@ export class TicketsService {
       showId,
     });
     // 포인트 차감 -> show 가격 정보
-    //Optional Chaining 연산자 사용, 비어있지 않은 경우 seatPrice 반환
+    //Optional Chaining 연산자 사용
     let price = 0; 
-    if (show && show.seats && show.seats.length > 0) {
-      price = show.seats[0].seatPrice;
+    if (show && show.seats && show.seats.length > 0) {  // 공연,공연의 좌석,공연의 좌석여부가 있다면
+      price = show.seats[0].seatPrice;      // 좌석 가격을 price 변수에 할당
     }
 
     const userInfo = await this.userRepository.findOneBy({
@@ -66,11 +66,27 @@ export class TicketsService {
       throw new NotFoundException('해당 좌석 정보가 없습니다.');
     }
     // -1 하기 위해 숫자로 변환
-    const updatedSeatNumber = Number(seat.seatNumber) - 1;
+    const updatedSeatNumber = Number(seat.seatNumber) - 1;  // 구매가능 좌석이 없어서 일단 전체좌석으로 설정..
     await this.seatRepository.save({
       seatId: seat.seatId,
       seatNumber: updatedSeatNumber.toString(), // 원래대로 돌리기 위해 문자열로 변환
     });
     return buyingTrace;
+  }
+
+  async ticketTrace(user : User) {
+    const userId = user.userId
+    const trace = await this.ticketsRepository.find({
+      where : {
+        userId
+      },
+      relations : {
+        show : true
+      }
+    })
+    if (trace.length == 0) {
+      throw new NotFoundException ('구매 내역이 없습니다.')
+    } 
+    return trace
   }
 }

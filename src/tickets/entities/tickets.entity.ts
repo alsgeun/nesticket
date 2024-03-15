@@ -26,7 +26,4 @@ export class Tickets {
     
     @Column({ type: 'bigint', name : 'userId', nullable: false })
     userId : number
-
-    @Column({ type : 'bigint', nullable: false })
-    ticketPrice : number
 }
