@@ -22,11 +22,21 @@ export class TicketsController {
     }
     }
 
+    // 구매 목록 조회
     @UseGuards(RolesGuard)
     @Roles(Role.User)
     @Get()
     async ticketTrace(@UserInfo() user : User) {
         const trace = await this.ticketsService.ticketTrace(user)
         return { trace }
+    }
+
+    // 구매 내역 상세조회
+    @UseGuards(RolesGuard)
+    @Roles(Role.User)
+    @Get(':ticketId')
+    async detailedTicketsTrace(@UserInfo() user : User, @Param('ticketId') ticketId : number) {
+        const detailedTckTrace = await this.ticketsService.detailedTicketsTrace(user, ticketId)
+        return detailedTckTrace
     }
 }

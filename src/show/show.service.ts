@@ -132,7 +132,7 @@ export class ShowService {
       },
       // relations: ['seats'],
     });
-  //   const shows = await getConnection()
+  //   const shows = await getConnection()      // 쿼리빌더는 생각만..
   // .createQueryBuilder(Show, "show")
   // .select(["show.showId", "show.showTitle"])
   // .addSelect(subQuery => {

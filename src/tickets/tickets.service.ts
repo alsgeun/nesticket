@@ -43,7 +43,7 @@ export class TicketsService {
       userId,
       showId,
     });
-    // 포인트 차감 -> show 가격 정보
+    // 포인트 차감 -> show 가격 정보  // 해결 X
     //Optional Chaining 연산자 사용
     let price = 0; 
     if (show && show.seats && show.seats.length > 0) {  // 공연,공연의 좌석,공연의 좌석여부가 있다면
@@ -74,19 +74,44 @@ export class TicketsService {
     return buyingTrace;
   }
 
+  // 구매 목록 조회
   async ticketTrace(user : User) {
     const userId = user.userId
     const trace = await this.ticketsRepository.find({
       where : {
         userId
       },
-      relations : {
-        show : true
-      }
+      select : {
+        show : {
+        showId: true,
+        showTitle: true,
+        showVenue: true,
+        showSchedule: true,
+        }
+      },
+      relations : ['show']
     })
     if (trace.length == 0) {
       throw new NotFoundException ('구매 내역이 없습니다.')
     } 
     return trace
+  }
+
+  // 구매 목록 상세조회
+  async detailedTicketsTrace (user : User , ticketId : number) {
+    const myUserId = user.userId
+    const detailedTckTrace = await this.ticketsRepository.findOne({
+      where : {
+        ticketId : ticketId,
+        userId : myUserId
+      },
+      relations : {
+        show : true
+      }
+    })
+    if (!detailedTckTrace) {
+      throw new NotFoundException('구매 내역을 찾을 수 없습니다.')
+    }
+    return detailedTckTrace
   }
 }
